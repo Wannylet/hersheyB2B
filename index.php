@@ -10,7 +10,6 @@
 
 <?php
 session_start();
-include_once "conexion.php";
 
 init();
 
@@ -31,7 +30,7 @@ function consultar($connection, $dataBase, $query){
 function verificar_login($user, $password) {
     $connection = conectar();
     
-    $dataBase = "b2b";
+    $dataBase = "hersheyB2B";
     $query = "SELECT * FROM usuarios WHERE usuario = '$user' AND clave = '$password'";
     
     $rec = consultar($connection, $dataBase, $query);
@@ -51,7 +50,7 @@ function verificar_login($user, $password) {
 function extraer_registro($user, $password) {
     $connection = conectar();
     
-    $dataBase = "b2b";
+    $dataBase = "hersheyB2B";
     $query = "SELECT * FROM usuarios WHERE usuario = '$user' AND clave = '$password'";
     
     return mysqli_fetch_array(consultar($connection, $dataBase, $query));
@@ -115,8 +114,9 @@ function interfazLogin(){
     </div>
 <?php
 }
+/*
     //Conexion a BD
-    $connection = conectar();
+    $connection = $connectionBD;
     
     if (!$connection) {
         die('No se ha podido conectar a la base de datos: ' . mysqli_error());
@@ -152,8 +152,7 @@ function interfazLogin(){
     
     //Cerrar conexión
     mysqli_close($connection);
-    
-    /*
+
     //Validar directorio, y crear en caso que no exista
     $directory = "data";
     if (!is_dir($directory)) {
@@ -162,7 +161,6 @@ function interfazLogin(){
     
     //Ruta completa del archivo
     $filePath = $directory . "/employeeData.xml";
-    */
     
     //Crear el archivo XML
     $fileOpen = fopen("employeeData.xml","wb");
@@ -170,7 +168,6 @@ function interfazLogin(){
     //Escribimos el XML con sus nodos
     fwrite($fileOpen,$xml->asXML());
     
-    /*
     // - - - - - - -
     
     //Variables – Nota – hacer una prueba primero en localhost.
@@ -213,10 +210,11 @@ function interfazLogin(){
     ftp_close($conn_id);
     
     // - - - - - - -
-    */
     
     //Cierra el archivo XML
     fclose($fileOpen);
     // incluir codigo para enviar por ftp el xml creado, revisar el archivo “FTP con PHP”
     // Enviarlo a la carpeta Out.
+
+    */
 ?>
