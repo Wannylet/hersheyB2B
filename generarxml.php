@@ -1,34 +1,43 @@
 <?php
-
 include_once "pedidos.php";
+include_once "login.php";
+session_start();
 
-$numpedido = $_POST['numpedido'];
-$idcliente = $_POST['idcliente'];
-$cliente = $_POST['cliente'];
-$idproducto = $_POST['idproducto'];
-$producto = $_POST['producto'];
-$cantidad = $_POST['cantidad'];
-$importe = $_POST['importe'];
+initGenerarXML();
 
+function initGenerarXML (){
+  if (loggeado()) {
+      header("location:index.php");
+  }else{
+      generarXML();
+  }
+}
 
-$xml=new DomDocument("1.0","UTF-8");
+function generarXML(){
+  $numpedido = $_POST['numpedido'];
+  $fechapedido = $_POST['fechapedido'];
+  $cliente = $_POST['cliente'];
+  $producto = $_POST['producto'];
+  $cantidad = $_POST['cantidad'];
+  $importe = $_POST['importe'];
 
-$raiz=$xml->createElement("pedidos");
-$raiz=$xml->appendChild($raiz);
-
-/*primer ITEM--------------------------*/  
-$oc=$xml->createElement("Item");
-$oc=$raiz->appendChild($oc);
-
-
-$proveedor=$xml->createElement("numpedido", $numpedido);
-$proveedor=$oc->appendChild($proveedor);
-
-$proveedor=$xml->createElement("idcliente", $idcliente);
-$proveedor=$oc->appendChild($proveedor);
-
-$numeroOC=$xml->createElement("cliente", $cliente);
-$numeroOC=$oc->appendChild($numeroOC);
+  $xml=new DomDocument("1.0","UTF-8");
+  
+  $raiz=$xml->createElement("pedidos");
+  $raiz=$xml->appendChild($raiz);
+  
+  /*primer ITEM--------------------------*/  
+  
+  $oc=$xml->createElement("Item");
+  $oc=$raiz->appendChild($oc);
+  $proveedor=$xml->createElement("numpedido", $numpedido);
+  $proveedor=$oc->appendChild($proveedor);
+  
+  $proveedor=$xml->createElement("idcliente", $idcliente);
+  $proveedor=$oc->appendChild($proveedor);
+  
+  $numeroOC=$xml->createElement("cliente", $cliente);
+  $numeroOC=$oc->appendChild($numeroOC);
 
 $proveedor=$xml->createElement("idproducto", $idproducto);
 $proveedor=$oc->appendChild($proveedor);
@@ -54,5 +63,6 @@ if($xml->save("pedidos.xml")){
   //header('location: cargarinfo.php'); 
 }else{
   echo '<script language="javascript">alert("No se pudo guardar el archivo xml.");</script>'; 
+}
 }
 ?>
