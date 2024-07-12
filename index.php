@@ -10,13 +10,13 @@
 
 <?php
 include_once "login.php";
-session_start();
 
 initIndex();
 
 function initIndex (){
     if (loggeado()) {
         header("location:pedidos.php");
+        exit();
     }else{
         interfazLogin();
     }

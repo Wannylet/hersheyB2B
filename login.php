@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 function conectar() {
     $serverDB = "localhost";
     $userDB = "root";
@@ -19,9 +21,9 @@ function verificar_login($user, $password) {
     $dataBase = "hersheyB2B";
     $query = "SELECT * FROM usuarios WHERE usuario = '$user' AND clave = '$password'";
     
-    $rec = consultar($connection, $dataBase, $query);
+    $result = consultar($connection, $dataBase, $query);
     $count = 0;
-    while ($row = mysqli_fetch_object($rec)) {
+    while (mysqli_fetch_object($result)) {
         $count++;
     }
     

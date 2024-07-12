@@ -2,7 +2,6 @@
 
 <?php
 include_once "login.php";
-session_start();
 
 initPedidos();
 
@@ -33,7 +32,6 @@ function interfazEntrada(){
             <div class="content">
                 <br>
                 <input name="numpedido" type="number" class="input indata" placeholder="Número de pedido: 5000" required>
-                <input name="fechapedido" type="date" class="input indata" required>
                 <input name="cliente" type="text" class="input indata" placeholder="Cliente: Bimbo" required>
                 <input name="producto" type="text" class="input indata" placeholder="Producto: Mesas" required>
                 <input name="cantidad" type="number" class="input indata" placeholder="Cantidad: 10" required>

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pedidos><Item><numpedido>19</numpedido><idcliente/><cliente>dfgd</cliente><idproducto/><producto>fb</producto><cantidad>19</cantidad><importe>46456.8</importe></Item></pedidos>
+<pedidos><Item><idpedido>1</idpedido><numpedido>2</numpedido><idcliente>1</idcliente><cliente>as</cliente><idproducto>1</idproducto><producto>asdss</producto><cantidad>3</cantidad><importe>0.03</importe></Item></pedidos>

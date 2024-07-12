@@ -1,68 +1,75 @@
 <?php
 include_once "pedidos.php";
 include_once "login.php";
-session_start();
 
 initGenerarXML();
 
 function initGenerarXML (){
   if (loggeado()) {
-      header("location:index.php");
-  }else{
       generarXML();
+  }else{
+      header("location:index.php");
   }
 }
 
 function generarXML(){
+  $idpedido = $_SESSION["idusuario"];
   $numpedido = $_POST['numpedido'];
   $fechapedido = $_POST['fechapedido'];
+  $idcliente = $idpedido;
   $cliente = $_POST['cliente'];
+  $idproducto = $idpedido;
   $producto = $_POST['producto'];
   $cantidad = $_POST['cantidad'];
   $importe = $_POST['importe'];
 
-  $xml=new DomDocument("1.0","UTF-8");
+  //Creación del documento XML
+  $archivoXML = new DomDocument("1.0","UTF-8");
   
-  $raiz=$xml->createElement("pedidos");
-  $raiz=$xml->appendChild($raiz);
+  //Crea elemento y se agrega
+  $raiz = $archivoXML->createElement("pedidos");
+  $raiz = $archivoXML->appendChild($raiz);
   
-  /*primer ITEM--------------------------*/  
+  /*primer ITEM--------------------------*/
+
+  $item = $archivoXML->createElement("Item");
+  $item = $raiz->appendChild($item);
+
+  $elementoXML = $archivoXML->createElement("idpedido", $idpedido);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("numpedido", $numpedido);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("fechapedido", $fechapedido);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("idcliente", $idcliente);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("cliente", $cliente);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("idproducto", $idproducto);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("producto", $producto);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("cantidad", $cantidad);
+  $elementoXML = $item->appendChild($elementoXML);
+
+  $elementoXML = $archivoXML->createElement("importe", $importe);
+  $elementoXML = $item->appendChild($elementoXML);
   
-  $oc=$xml->createElement("Item");
-  $oc=$raiz->appendChild($oc);
-  $proveedor=$xml->createElement("numpedido", $numpedido);
-  $proveedor=$oc->appendChild($proveedor);
-  
-  $proveedor=$xml->createElement("idcliente", $idcliente);
-  $proveedor=$oc->appendChild($proveedor);
-  
-  $numeroOC=$xml->createElement("cliente", $cliente);
-  $numeroOC=$oc->appendChild($numeroOC);
+  /*guardar xml--------------------------------*/  
+  $archivoXML->formatOut = true;
 
-$proveedor=$xml->createElement("idproducto", $idproducto);
-$proveedor=$oc->appendChild($proveedor);
-
-$numeroOC=$xml->createElement("producto", $producto);
-$numeroOC=$oc->appendChild($numeroOC);
-
-$proveedor=$xml->createElement("cantidad", $cantidad);
-$proveedor=$oc->appendChild($proveedor);
-
-$proveedor=$xml->createElement("importe", $importe);
-$proveedor=$oc->appendChild($proveedor);
-
-/*guardar xml--------------------------------*/  
-$xml->formatOut=true;
-
-$strings_xml=$xml->saveXML();
-
-if($xml->save("pedidos.xml")){
-  echo '<script language="javascript">alert("Se creado exitosamente el archivo xml.");</script>'; 
-  echo '<script language="javascript">window.location="cargarinfo.php";</script>'; 
-  
-  //header('location: cargarinfo.php'); 
-}else{
-  echo '<script language="javascript">alert("No se pudo guardar el archivo xml.");</script>'; 
-}
+  if($archivoXML->save("pedidos.xml")){
+    echo '<script language="javascript">alert("Se creado exitosamente el archivo xml.");</script>';
+    echo '<script language="javascript">window.location="cargarinfo.php";</script>';
+  }else{
+    echo '<script language="javascript">alert("No se pudo guardar el archivo xml.");</script>';
+  }
 }
 ?>
