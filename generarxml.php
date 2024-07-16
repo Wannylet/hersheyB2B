@@ -13,10 +13,16 @@ function initGenerarXML (){
 }
 
 function generarXML(){
-  $idpedido = $_SESSION["idusuario"];
+  $idpedido = mysqli_fetch_assoc(consultar(conectar(), "hersheyB2B", "SELECT idpedido FROM bd_pedidos ORDER BY idpedido DESC LIMIT 1"))['idpedido'];
+  if ($idpedido == null) {
+    $idpedido = 0;
+  }
+
+  $idpedido++;
+
   $numpedido = $_POST['numpedido'];
   $fechapedido = $_POST['fechapedido'];
-  $idcliente = $idpedido;
+  $idcliente = $_SESSION['idusuario'];
   $cliente = $_POST['cliente'];
   $idproducto = $idpedido;
   $producto = $_POST['producto'];
@@ -29,43 +35,40 @@ function generarXML(){
   //Crea elemento y se agrega
   $raiz = $archivoXML->createElement("pedidos");
   $raiz = $archivoXML->appendChild($raiz);
-  
-  /*primer ITEM--------------------------*/
-
-  $item = $archivoXML->createElement("Item");
-  $item = $raiz->appendChild($item);
 
   $elementoXML = $archivoXML->createElement("idpedido", $idpedido);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("numpedido", $numpedido);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("fechapedido", $fechapedido);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("idcliente", $idcliente);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("cliente", $cliente);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("idproducto", $idproducto);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("producto", $producto);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("cantidad", $cantidad);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
 
   $elementoXML = $archivoXML->createElement("importe", $importe);
-  $elementoXML = $item->appendChild($elementoXML);
+  $elementoXML = $raiz->appendChild($elementoXML);
   
   /*guardar xml--------------------------------*/  
   $archivoXML->formatOut = true;
 
-  if($archivoXML->save("pedidos.xml")){
+  $nombreArchivo = "pedidos-" . date('Y-m-d-H-i-s') . ".xml";
+  
+  if($archivoXML->save($nombreArchivo)){
     echo '<script language="javascript">alert("Se creado exitosamente el archivo xml.");</script>';
     echo '<script language="javascript">window.location="cargarinfo.php";</script>';
   }else{
