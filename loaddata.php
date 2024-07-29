@@ -42,7 +42,7 @@
 				$ftp_user_name = "u269761573"; // Usuario X10 Hosting
 				$ftp_user_pass = "tiendaRoot1"; // // Usuario X10 Hosting "cloudproject.cloud"
 				// carpeta destino en X10
-				$destination_file = "../Caleb/" . $nombreArchivo;
+				$destination_file = "../proveedores/" . $nombreArchivo;
                 //Xml creado
                 $source_file = __DIR__ . "\\" . $nombreArchivo;
 
@@ -72,8 +72,10 @@
 				ftp_close($conn_id);
 
 				//- - - - - - - - - -
-
-				echo '<script language="javascript">window.location="newone.php";</script>';
+                                
+                                $_SESSION['archivoBorrar'] = __DIR__ . "\\" . $nombreArchivo;;
+                                
+				echo '<script language="javascript">window.location="borrarArchivo.php";</script>';
 			}
 		} else {
 			echo '<script language="javascript">alert("Error al subir el archivo.");</script>'; 
